@@ -1,4 +1,4 @@
-# PlantCare AI 🌱
+# PlantCare AI 🌱 - Real-Time Plant Disease Detection System
 
 PlantCare AI is a real-time plant disease detection system built using Python, OpenCV, and TensorFlow Lite.
 
@@ -35,4 +35,6 @@ python main.py
 
 ## Author
 
-Sai Charan Reddy
+K Sai Charan Reddy
+
+Developed as a real-time AI-powered plant disease detection system using Python, OpenCV, and TensorFlow Lite.
