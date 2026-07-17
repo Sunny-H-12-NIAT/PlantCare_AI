@@ -72,3 +72,89 @@ Open your computer's terminal (the black coding screen) and type exactly what is
 This allows your computer code to open your phone's camera and look at images.
 ```bash
 pip install opencv-python
+
+### 2. download numpy
+**What is this and why do we need it?**
+To a computer, a picture of a leaf is not a green object; it is just a massive grid of thousands of tiny numbers that represent colors. NumPy (which stands for Numerical Python) is a powerful mathematical tool that takes the video from your camera and instantly chops it up into these giant grids of numbers. Without NumPy, our AI would have no idea how to read the picture because it only understands numbers, not images. 
+**The Installation Command:**
+```bash
+pip install numpy
+
+3. download tensorflow
+
+What is this and why do we need it?
+This is the absolute core of our project. TensorFlow is a massive Artificial Intelligence engine created by Google. We are using a special, lightweight version of it called "TensorFlow Lite." When NumPy turns the camera picture into numbers, it hands those numbers over to TensorFlow. TensorFlow then uses its "brain" (the model we trained) to scan the numbers and make a final decision: "Is this plant Healthy, Dry, or Diseased?" It is the decision-maker of the entire operation.
+The Installation Command:
+(Note: This is a very large file, so your computer might take a few minutes to finish downloading it. Just let it load!)
+
+```bash
+pip install tensorflow
+
+4. download pyserial
+What is this and why do we need it?
+Once TensorFlow decides a plant is Dry or Diseased, it needs a way to tell the water pumps to turn on. The problem is, the AI lives inside your computer, but the pumps are connected to the ESP32 board outside the computer. PySerial acts as a digital bridge. It takes the text commands from our Python code (like the letter 'S' for Spray) and pushes them through your USB cord directly into the ESP32 board.
+The Installation Command:
+(Warning: Make sure you type pyserial and NOT just serial, otherwise you will download the wrong package!)
+
+Bash
+pip install pyserial
+5. download supabase
+What is this and why do we need it?
+We want our SmartSpray Node to be a modern Internet-of-Things (IoT) device. That means it needs to talk to the internet. Supabase is a cloud database service. Every single time our AI detects a problem and turns on a pump, this library takes that information, securely connects to the internet, and writes a log entry in our cloud database. This allows us to check on our plants from anywhere in the world just by looking at our Supabase dashboard!
+The Installation Command:
+
+Bash
+pip install supabase
+🚀 System Starting: The Boot-Up Sequence
+Now that your computer has all the vocabulary it needs, it is time to bring the hardware and software together. You must follow these steps in this exact order, or the system will experience a "traffic jam" on the USB port!
+
+Step 1: Uploading the Brain's Firmware
+First, we have to teach the ESP32 board how to listen for our Python commands.
+
+Open the file named sketch_jul15a.ino using the Arduino IDE software on your computer.
+
+Plug your ESP32 board into your computer using a USB cable.
+
+In the Arduino software, go to the top menu, click Tools -> Port, and select the COM port your board is plugged into (for example, COM7).
+
+Click the Upload button (the arrow pointing to the right at the top left of the screen).
+
+Wait for the green bar to load at the bottom. Once it says "Done uploading", the ESP32 is officially ready.
+
+Step 2: The Most Important Failsafe
+YOU MUST CLOSE THE ARDUINO SOFTWARE NOW.
+If you leave the Arduino program or its Serial Monitor open, it will hold your USB port hostage. When Python tries to connect to the ESP32 to turn on the pumps, it will crash and say "Access is Denied." Close the Arduino window completely!
+
+🤖 Running the AI: Let the Magic Happen
+You are finally ready to turn on the robot gardener.
+
+Step 1: Set Up the Camera Eyes
+If you are using a smartphone as your camera:
+
+Connect your phone and your computer to the exact same Wi-Fi network.
+
+Open your IP Webcam app on your phone and click "Start Server".
+
+The app will show a web address on your phone screen (like http://10.10.19.192:8080).
+
+Make sure that exact address is typed into your main.py code where it says phone_camera_url.
+
+Step 2: Start the Engine
+Open your code editor (like VS Code).
+
+Open the Terminal window at the very bottom.
+
+Make sure you are inside your PlantCare_AI folder.
+
+Type this final command and hit ENTER:
+
+Bash
+python main.py
+Step 3: Watch It Work!
+A new window will pop up on your computer screen showing exactly what your phone camera sees.
+
+Point the camera at a healthy plant. The text will turn Green, and the pumps will stay silent.
+
+Point the camera at a picture of a Dry Plant. The text will turn Yellow, the ESP32 will flash, the relay will CLICK, and the Water Pump will turn on for exactly 10 seconds!
+
+Point the camera at a picture of a Diseased Plant. The text will turn Red, the ESP32 will route the signal, the second relay will CLICK, and the Pesticide Pump will trigger for exactly 10 seconds!
